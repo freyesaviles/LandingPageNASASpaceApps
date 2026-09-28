@@ -177,6 +177,7 @@ h1 em, h2 em { color: var(--lime); font-style: normal; }
   .strip-number { font-size: 3.5rem; }
   .strip-label { font-size: 0.68rem; }
   .content-section, .coming-section, .organizers-section { display: flex; flex-direction: column; gap: 4rem; }
+  .coming-section::before { display: none; }
   .mission-copy { align-self: auto; }
   .facts-section { gap: 1px; grid-template-columns: 1fr; }
   .fact-card, .fact-card:first-child { border-left: 0; border-top: 1px solid var(--line); min-height: 210px; padding: 1.2rem 0; }
@@ -185,7 +186,9 @@ h1 em, h2 em { color: var(--lime); font-style: normal; }
   .fact-card strong { margin-top: 2rem; }
   .flyer-section { align-items: flex-start; gap: 5rem; }
   .flyer-copy p:not(.eyebrow) { margin-bottom: 2.8rem; margin-top: 3.35rem; }
-  .flyer-frame { margin: 0 auto; max-width: 420px; }
+  .flyer-frame { margin: 0 auto 0.5rem; max-width: 420px; }
+  .flyer-frame::after { inset: -6px; transform: rotate(3deg); }
+  .flyer-pin { left: 0.5rem; top: -2.7rem; }
   .sponsor-placeholders { grid-template-columns: 1fr; margin-top: 3rem; }
   .sponsor-placeholders span + span { border-left: 0; border-top: 1px solid var(--line); }
   .site-footer { align-items: start; grid-template-columns: 1fr; }
