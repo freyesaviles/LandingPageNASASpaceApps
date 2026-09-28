@@ -21,6 +21,7 @@ const officialUrl = "https://www.spaceappschallenge.org/";
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <div class="starfield" aria-hidden="true"><canvas id="starfield-canvas"></canvas></div>
     <header class="site-header">
       <a class="header-brand" href="#inicio" aria-label="NASA Space Apps Managua, inicio">
         <img src="/assets/logo-lineal-white.png" alt="NASA Space Apps Managua" />
@@ -192,6 +193,139 @@ const officialUrl = "https://www.spaceappschallenge.org/";
           navigation.classList.remove('is-open');
         });
       });
+
+      const starCanvas = document.querySelector<HTMLCanvasElement>('#starfield-canvas');
+      const starContext = starCanvas?.getContext('2d');
+
+      if (starCanvas && starContext) {
+        type Star = {
+          x: number;
+          y: number;
+          depth: number;
+          radius: number;
+          opacity: number;
+          speed: number;
+          twinkle: number;
+          phase: number;
+          wander: number;
+          wanderSpeed: number;
+          pulseDepth: number;
+          color: string;
+        };
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const stars: Star[] = [];
+        let width = 0;
+        let height = 0;
+        let pixelRatio = 1;
+        let scrollOffset = window.scrollY;
+        let scrollVelocity = 0;
+        let targetScrollVelocity = 0;
+        let lastScrollOffset = scrollOffset;
+        let lastScrollTime = performance.now();
+        let animationFrame = 0;
+
+        const random = (min: number, max: number) => min + Math.random() * (max - min);
+
+        const createStars = () => {
+          stars.length = 0;
+          const count = Math.min(300, Math.max(120, Math.floor((width * height) / 5600)));
+          const colors = ['247,248,245', '166,176,201', '45,123,199', '229,255,0'];
+
+          for (let index = 0; index < count; index += 1) {
+            stars.push({
+              x: random(0, width),
+              y: random(0, height),
+              depth: random(0.25, 1),
+              radius: random(0.35, 1.35),
+              opacity: random(0.15, 0.52),
+              speed: random(0.9, 5.2),
+              twinkle: random(0.7, 2.7),
+              phase: random(0, Math.PI * 2),
+              wander: random(3, 16),
+              wanderSpeed: random(0.15, 0.65),
+              pulseDepth: random(0.14, 0.3),
+              color: colors[Math.floor(random(0, colors.length))],
+            });
+          }
+        };
+
+        const drawStars = (time: number) => {
+          starContext.clearRect(0, 0, width, height);
+          const elapsed = time / 1000;
+          scrollVelocity += (targetScrollVelocity - scrollVelocity) * 0.18;
+          targetScrollVelocity *= 0.9;
+
+          stars.forEach((star) => {
+            const wander = reducedMotion.matches ? 0 : Math.sin(elapsed * star.wanderSpeed + star.phase) * star.wander;
+            const x = (star.x + (reducedMotion.matches ? 0 : elapsed * star.speed + wander) + width) % width;
+            const y = (star.y - scrollOffset * star.depth * 0.035 + wander * 0.35 + height) % height;
+            const pulse = reducedMotion.matches ? 1 : 0.76 + Math.sin(elapsed * star.twinkle + star.phase) * star.pulseDepth;
+            const alpha = star.opacity * pulse;
+            const scrollDirection = scrollVelocity > 0 ? -1 : 1;
+            const streakLength = Math.min(58, Math.abs(scrollVelocity) * 30 * star.depth);
+
+            if (streakLength > 1.5) {
+              const streakEnd = y + scrollDirection * streakLength;
+
+              if (streakEnd >= 0 && streakEnd <= height) {
+                starContext.beginPath();
+                starContext.strokeStyle = `rgba(${star.color}, ${alpha * 0.52})`;
+                starContext.lineWidth = Math.max(0.6, star.radius * 1.1);
+                starContext.moveTo(x, y);
+                starContext.lineTo(x, streakEnd);
+                starContext.stroke();
+              }
+            }
+
+            starContext.beginPath();
+            starContext.fillStyle = `rgba(${star.color}, ${alpha})`;
+            starContext.arc(x, y, star.radius * (0.8 + star.depth * 0.35), 0, Math.PI * 2);
+            starContext.fill();
+          });
+
+        };
+
+        const animateStars = (time: number) => {
+          drawStars(time);
+          if (!reducedMotion.matches) animationFrame = window.requestAnimationFrame(animateStars);
+        };
+
+        const resizeStars = () => {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+          starCanvas.width = width * pixelRatio;
+          starCanvas.height = height * pixelRatio;
+          starCanvas.style.width = `${width}px`;
+          starCanvas.style.height = `${height}px`;
+          starContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+          createStars();
+          drawStars(0);
+        };
+
+        const updateScroll = () => {
+          const now = performance.now();
+          const elapsed = Math.max(16, now - lastScrollTime);
+          const delta = window.scrollY - lastScrollOffset;
+
+          targetScrollVelocity = Math.max(-2.4, Math.min(2.4, delta / elapsed));
+          scrollOffset = window.scrollY;
+          lastScrollOffset = scrollOffset;
+          lastScrollTime = now;
+        };
+        const updateMotionPreference = () => {
+          window.cancelAnimationFrame(animationFrame);
+          resizeStars();
+          if (!reducedMotion.matches) animationFrame = window.requestAnimationFrame(animateStars);
+        };
+
+        window.addEventListener('resize', resizeStars, { passive: true });
+        window.addEventListener('scroll', updateScroll, { passive: true });
+        reducedMotion.addEventListener('change', updateMotionPreference);
+        resizeStars();
+        if (!reducedMotion.matches) animationFrame = window.requestAnimationFrame(animateStars);
+      }
 
       const target = new Date('2026-11-14T00:00:00-06:00').getTime();
       const countdown = document.querySelector('[data-countdown]');
