@@ -22,6 +22,7 @@ body {
   color: var(--white);
   font-family: var(--body);
   overflow-x: hidden;
+  width: 100vw;
 }
 
 .starfield { inset: 0; overflow: hidden; pointer-events: none; position: fixed; z-index: 0; }
@@ -177,7 +178,6 @@ h1 em, h2 em { color: var(--lime); font-style: normal; }
   .strip-number { font-size: 3.5rem; }
   .strip-label { font-size: 0.68rem; }
   .content-section, .coming-section, .organizers-section { display: flex; flex-direction: column; gap: 4rem; }
-  .coming-section { max-width: none; width: 100vw; }
   .coming-section::before { display: none; }
   .mission-copy { align-self: auto; }
   .facts-section { gap: 1px; grid-template-columns: 1fr; }
