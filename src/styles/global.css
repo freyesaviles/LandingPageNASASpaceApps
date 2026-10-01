@@ -70,9 +70,9 @@ h1 em, h2 em { color: var(--lime); font-style: normal; }
 .hero-meta { border-top: 1px solid var(--line); display: flex; gap: clamp(2rem, 6vw, 5.8rem); margin-top: 4.3rem; max-width: 490px; padding-top: 1rem; }
 .hero-meta div { display: flex; flex-direction: column; gap: 0.2rem; }
 .hero-meta div:nth-child(2) { transform: translateY(0); }
-.hero-meta strong { font-family: var(--display); font-size: 1.7rem; letter-spacing: 0.03em; }
-.meta-logo { display: block; height: 1.7rem; margin-left: -0.45rem; width: 5.2rem; }
-.meta-logo img { display: block; height: 100%; object-fit: contain; object-position: left center; width: 100%; }
+.hero-meta strong { font-family: var(--display); font-size: 2rem; letter-spacing: 0.03em; line-height: 1.015; }
+.meta-logo { display: block; height: 2.03rem; margin-left: -0.45rem; width: 5.2rem; }
+.meta-logo img { display: block; height: 1.7rem; object-fit: contain; object-position: left center; width: 100%; }
 .hero-meta span { color: var(--muted); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .hero-orbit { align-items: center; display: flex; height: min(48vw, 590px); justify-content: center; min-height: 400px; position: relative; }
 .hero-logo-crop { border: 1px solid rgba(247, 248, 245, 0.16); border-radius: 50%; box-shadow: 0 0 42px rgba(22, 78, 155, 0.24); filter: drop-shadow(0 0 26px rgba(67, 144, 255, 0.2)); max-width: 76%; overflow: hidden; position: relative; width: 390px; z-index: 2; }
@@ -215,8 +215,9 @@ h1 em, h2 em { color: var(--lime); font-style: normal; }
   h1 { font-size: clamp(4.3rem, 20vw, 6.5rem); }
   .section-heading h2, .flyer-copy h2, .coming-copy h2, .organizer-intro h2 { font-size: clamp(3.6rem, 17vw, 5rem); }
   .hero-meta { gap: 1.5rem; }
-  .hero-meta strong { font-size: 1.45rem; }
+  .hero-meta strong { font-size: 1.55rem; line-height: 1.1; }
   .hero-meta span { font-size: 0.57rem; }
+  .meta-logo { height: 1.7rem; }
   .signal-panel { padding: 1.25rem; }
   .organizer-item { gap: 0.7rem; grid-template-columns: 28px 1fr auto; }
   .organizer-item h3 { font-size: 1.7rem; }
