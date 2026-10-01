@@ -23,9 +23,15 @@ const officialUrl = "https://www.spaceappschallenge.org/";
   <body>
     <div class="starfield" aria-hidden="true"><canvas id="starfield-canvas"></canvas></div>
     <header class="site-header">
-      <a class="header-brand" href="#inicio" aria-label="NASA Space Apps Managua, inicio">
-        <img src="/assets/logo-lineal-white.png" alt="NASA Space Apps Managua" />
-      </a>
+      <div class="header-identity">
+        <a class="header-brand" href="#inicio" aria-label="NASA Space Apps Managua, inicio">
+          <img src="/assets/logo-lineal-white.png" alt="NASA Space Apps Managua" />
+        </a>
+        <span class="header-divider" aria-hidden="true"></span>
+        <a class="header-partner" href="#organizadores" aria-label="Universidad Americana de Nicaragua">
+          <img src="/assets/logo-uam-white.png" alt="Universidad Americana de Nicaragua" />
+        </a>
+      </div>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span>
         <span class="sr-only">Abrir menú</span>
@@ -50,7 +56,7 @@ const officialUrl = "https://www.spaceappschallenge.org/";
           </div>
           <div class="hero-meta" aria-label="Datos principales del evento">
             <div><strong>14—15</strong><span>Noviembre 2026</span></div>
-            <div><strong>UAM</strong><span>Managua, Nicaragua</span></div>
+            <div><span class="meta-logo"><img src="/assets/logo-uam-white.png" alt="UAM" /></span><span>Managua, Nicaragua</span></div>
           </div>
         </div>
 
@@ -93,7 +99,7 @@ const officialUrl = "https://www.spaceappschallenge.org/";
         </div>
         <div class="fact-card fact-card-accent">
           <span class="fact-index">02 / sede</span>
-          <strong>UAM</strong>
+          <span class="fact-logo"><img src="/assets/logo-uam-white.png" alt="UAM" /></span>
           <p>Jaguar Center · Managua</p>
         </div>
         <div class="fact-card">
@@ -159,10 +165,7 @@ const officialUrl = "https://www.spaceappschallenge.org/";
           </article>
           <article class="organizer-item">
             <span class="organizer-number">02</span>
-            <div><h3>UAM · FIA</h3><p>Facultad de Ingeniería y Arquitectura. Sede oficial que hace posible esta propuesta.</p></div>
-            <span class="organizer-mark organizer-mark-image">
-              <img src="/assets/logo-uam-nicaragua.jpg" alt="Logo de la Universidad Americana de Nicaragua" />
-            </span>
+            <div><h3><img class="organizer-title-logo" src="/assets/logo-uam-white.png" alt="UAM" /><span>· FIA</span></h3><p>Facultad de Ingeniería y Arquitectura. Sede oficial que hace posible esta propuesta.</p></div>
           </article>
         </div>
       </section>
@@ -178,6 +181,19 @@ const officialUrl = "https://www.spaceappschallenge.org/";
     </footer>
 
     <script>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+      const resetInitialScroll = () => {
+        if (window.location.hash) {
+          window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+        }
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      };
+
+      resetInitialScroll();
+      window.addEventListener('pageshow', resetInitialScroll, { once: true });
+      window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
+
       const menuButton = document.querySelector('.menu-toggle');
       const navigation = document.querySelector('#site-nav');
 
