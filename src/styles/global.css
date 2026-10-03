@@ -123,7 +123,7 @@ h1 em, h2 em { color: var(--lime); font-style: normal; }
 .fact-card-accent { background: var(--red); border: 0; color: var(--white); }
 .fact-card-accent .fact-index, .fact-card-accent p { color: rgba(255,255,255,0.72); }
 
-.flyer-section { align-items: center; grid-template-columns: minmax(280px, 0.9fr) minmax(280px, 0.75fr); }
+.flyer-section { align-items: center; gap: clamp(2.5rem, 5vw, 5rem); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 .flyer-frame { background: var(--blue); max-width: 510px; padding: 1rem; position: relative; transform: rotate(-2deg); }
 .flyer-frame::after { border: 1px solid rgba(229,255,0,0.7); content: ""; inset: -10px; pointer-events: none; position: absolute; transform: rotate(4deg); }
 .flyer-frame img { display: block; height: auto; position: relative; width: 100%; z-index: 1; }
@@ -183,6 +183,12 @@ h1 em, h2 em { color: var(--lime); font-style: normal; }
 @keyframes orbit-spin { from { transform: rotate(-30deg); } to { transform: rotate(330deg); } }
 @keyframes orbit-spin-reverse { from { transform: rotate(50deg) scaleX(0.45); } to { transform: rotate(-310deg) scaleX(0.45); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+
+@media (min-width: 801px) {
+  .hero-copy, .section-heading, .flyer-copy, .coming-copy, .organizer-intro { container-type: inline-size; }
+  .hero-copy h1 { font-size: clamp(4.5rem, 22cqw, 9.5rem); }
+  .section-heading h2, .flyer-copy h2, .coming-copy h2, .organizer-intro h2 { font-size: clamp(3.5rem, 20cqw, 7.5rem); }
+}
 
 @media (max-width: 800px) {
   .site-header { padding-top: 1.25rem; }
